@@ -1,15 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "fonctions.h"
 
 int main(){
 
-    // Initialisation du tableau
-    char plateau[Lenght_tab][Lenght_tab];
+    // Initialisation du plateau
+    int plateau[Lenght_tab][Lenght_tab];
 
-    // Initialisation du tableau et affichage
+    // Initialisation du plateau et affichage
     Init_tab(plateau);
     Print_tab(plateau);
+
+    // Boucle de jeux
+
+    char tab_player[2] = {'N', 'B'};
+    int Indice_tab_player = 0;
+
+
+    bool boucle = true;
+
+    while(boucle){
+        
+        int ligne;
+        int column;
+
+        printf("\n");
+        printf("C'est au tour des pions %c\n", tab_player[Indice_tab_player]);
+        printf("Rentrer ligne : ");
+        scanf("%d", &ligne); // Rentrer ligne : 
+        printf("Rentrer colone : ");
+        scanf("%d", &column); // Rentrer colone : 
+
+        Is_possible(plateau, ligne, column, Indice_tab_player);
+        Indice_tab_player = (Indice_tab_player + 1)%2;
+
+        Print_tab(plateau);
+
+    }
     return 0;
 }

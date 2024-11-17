@@ -18,9 +18,7 @@ int main(){
     char tab_player[2] = {'N', 'B'};
     int Indice_tab_player = 0;
 
-
     bool boucle = true;
-
     while(boucle){
         
         int ligne;
@@ -33,8 +31,19 @@ int main(){
         printf("Rentrer colone : ");
         scanf("%d", &column); // Rentrer colone : 
 
-        Is_possible(plateau, ligne, column, Indice_tab_player);
-        Indice_tab_player = (Indice_tab_player + 1)%2;
+        int Possible_vect[8][2];
+        bool played = Is_possible(plateau, ligne, column, Indice_tab_player, Possible_vect);
+
+        printf("\n");
+        for (int i =0;i<8; i++){
+            for (int j =0; j<2;j++){
+                printf("%d ", Possible_vect[i][j]);
+            }
+            printf(" , ");
+        }
+        printf("\n");
+
+        Indice_tab_player = played == 1 ? (Indice_tab_player + 1)%2 : Indice_tab_player;
 
         Print_tab(plateau);
 

@@ -1,4 +1,5 @@
 ti = -Wall -Wextra
+h = fonctions.h
 
 main : main.o fonctions_bases.o IA.o
 	gcc $^ -o $@ $(ti)
@@ -6,10 +7,10 @@ main : main.o fonctions_bases.o IA.o
 main.o : main.c
 	gcc -c $^ -o $@ $(ti)
 
-fonctions_bases.o : fonctions_bases.c fonctions.h
+fonctions_bases.o : fonctions_bases.c $(h)
 	gcc -c $< -o $@ $(ti)
 
-IA.o : IA.c fonctions.h
+IA.o : IA.c $(h)
 	gcc -c $< -o $@ $(ti)
 
 clean :

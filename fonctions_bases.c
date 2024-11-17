@@ -4,7 +4,7 @@
 
 /*-------------------------------------------------------------------------*/
 
-void Init_tab(int plateau[Lenght_tab][Lenght_tab]){ 
+void Init_tab(int plateau[Lenght_tab][Lenght_tab]) { 
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j ++){
             plateau[i][j] = (-1);
@@ -40,41 +40,37 @@ bool Is_empty(int plateau[Lenght_tab][Lenght_tab], int ligne, int column){
 
 /*-------------------------------------------------------------------------*/
 
-bool Is_possible(int plateau[Lenght_tab][Lenght_tab], int i, int j, int Indice_player){
+bool Is_possible(int plateau[Lenght_tab][Lenght_tab], int i, int j, int Indice_player, int Possible_vect[8][2]){
 
     bool possible = false;
-    // Iteration sur le tableau pour trouver les lignes vides
+
+    int Vect[8][2] = {{0,-1},{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1}};
 
     if (Is_empty(plateau,i,j)){
+        for (int i_vect = 0; i_vect < 8; i_vect++){
 
-        // Iteration sur les voisins pour voir si il y a un pion adverse
+            int pos_ligne = Vect[i_vect][0]+i;
+            int pos_column = Vect[i_vect][1]+j;
 
-        for(int ligne_vect = -1; ligne_vect < 2; ligne_vect++){
-            for(int column_vect = -1; column_vect < 2; column_vect++){
+            bool end = true;
+            bool in_boucle=false;
 
-                int pos_ligne = ligne_vect+i;
-                int pos_column = column_vect+j;
-
-                // Gerer le probleme du seg fault si nb entre trop grand
-
-                bool end = true;
-                bool in_boucle=false;
-
-                if(pos_ligne >= 0 && pos_ligne <= 7 && pos_column >= 0 && pos_column <= 7){
-                    end = false;
+            if(pos_ligne >= 0 && pos_ligne <= 7 && pos_column >= 0 && pos_column <= 7){
+                end = false;
+            }
+            while (plateau[pos_ligne][pos_column] != Indice_player && plateau[pos_ligne][pos_column] != (-1) && end == false){
+                in_boucle=true;
+                if(!(pos_ligne >= 0 && pos_ligne <= 7 && pos_column >= 0 && pos_column <= 7)){
+                    end = true;
+                } else {
+                    pos_ligne += Vect[i_vect][0];
+                    pos_column += Vect[i_vect][1];
                 }
-                while (plateau[pos_ligne][pos_column] != Indice_player && plateau[pos_ligne][pos_column] != (-1) && end == false){
-                    in_boucle=true;
-                    if(!(pos_ligne >= 0 && pos_ligne <= 7 && pos_column >= 0 && pos_column <= 7)){
-                        end = true;
-                    } else {
-                        pos_ligne += ligne_vect;
-                        pos_column += column_vect;
-                        // printf("%d\n", in_boucle);
-                    }
-                    // printf("%d %d", pos_ligne, pos_column);
-                }
-                if ((plateau[pos_ligne][pos_column] == Indice_player) && (in_boucle==true)) possible = true;
+            }
+            if ((plateau[pos_ligne][pos_column] == Indice_player) && (in_boucle==true)){
+                Possible_vect[i][0] = Vect[i][0];
+                Possible_vect[i][1] = Vect[i][1];
+                possible = true;
             }
         }
     }
